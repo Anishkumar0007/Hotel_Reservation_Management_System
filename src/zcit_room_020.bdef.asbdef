@@ -1,0 +1,22 @@
+
+projection;
+strict ( 2 );
+use draft;
+define behavior for ZCIT_ROOM_020 alias Room
+{
+ use create;
+ use update;
+ use delete;
+ use action Edit;
+ use action Activate;
+ use action Discard;
+ use action Prepare;
+ use action Resume;
+ use association _booking { create; with draft; }
+}
+define behavior for ZCIT_BOOK_020 alias Booking
+{
+ use update;
+ use delete;
+ use association _room { with draft; }
+}

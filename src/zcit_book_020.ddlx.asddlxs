@@ -1,0 +1,66 @@
+@Metadata.layer: #CORE
+@UI: {
+ headerInfo: {
+   typeName: 'Booking',
+   typeNamePlural: 'Bookings',
+   title: { type: #STANDARD, label: 'Booking', value: 'BookingId' }
+ }
+}
+annotate entity ZCIT_BOOK_020 with
+{
+  @UI.facet: [
+    {
+      id: 'BookingDetail',
+      purpose: #STANDARD,
+      type: #IDENTIFICATION_REFERENCE,
+      label: 'Booking Details',
+      position: 10
+    }
+  ]
+  @UI: { lineItem: [{position: 10, label: 'Room ID'}],
+         identification: [{position: 10, label: 'Room ID'}],
+         selectionField: [{position: 10}] }
+  RoomId;
+  //  @UI: { lineItem: [{position: 10, label: 'Room ID'}],
+  //         identification: [{position: 10, label: 'Room ID'}] }
+  //  RoomId;
+  @UI: { lineItem: [{position: 20, label: 'Booking ID'}],
+         identification: [{position: 20, label: 'Booking ID'}],
+         selectionField: [{position: 20}] }
+  BookingId;
+  @UI: { lineItem: [{position: 40, label: 'Check-In'}],
+         identification: [{position: 40, label: 'Check-In'}] }
+  CheckInDate;
+  @UI: { lineItem: [{position: 50, label: 'Check-Out'}],
+         identification: [{position: 50, label: 'Check-Out'}] }
+  CheckOutDate;
+
+
+  @UI: { lineItem: [{position: 60, label: 'Total Price'}],
+         identification: [{position: 60, label: 'Total Price'}] }
+  TotalAmount;
+  @UI.hidden: true
+  Currency;
+  //
+  //  @UI: { lineItem: [{position: 80, label: 'Status'}],
+  //         identification: [{position: 80, label: 'Status'}] }
+  //  BookingStatus;
+
+  //  @UI: { lineItem: [{position: 60, label: 'Total Amount'}],
+  //         identification: [{position: 60, label: 'Total Amount'}] }
+  //  TotalAmount;
+  //  @UI: { lineItem: [{position: 70, label: 'Currency'}],
+  //         identification: [{position: 70, label: 'Currency'}] }
+  //  Currency;
+  @UI: { lineItem: [{position: 80, label: 'Status'}],
+         identification: [{position: 80, label: 'Status'}] }
+  BookingStatus;
+  @UI.hidden: true
+  LocalCreatedBy;
+  @UI.hidden: true
+  LocalCreatedAt;
+  @UI.hidden: true
+  LocalLastChangedBy;
+  @UI.hidden: true
+  LocalLastChangedAt;
+}

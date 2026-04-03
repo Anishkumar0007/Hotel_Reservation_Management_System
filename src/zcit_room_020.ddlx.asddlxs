@@ -1,0 +1,66 @@
+@Metadata.layer: #CORE
+@UI: {
+ headerInfo: {
+   typeName: 'Hotel Room',
+   typeNamePlural: 'Hotel Rooms',
+   title: { type: #STANDARD, label: 'Room', value: 'RoomId' }
+ }
+}
+annotate entity ZCIT_ROOM_020 with
+{
+  @UI.facet: [
+    {
+      id: 'RoomHeader',
+      purpose: #STANDARD,
+      type: #IDENTIFICATION_REFERENCE,
+      label: 'Room Details',
+      position: 10
+    },
+    {
+      id: 'BookingItems',
+      purpose: #STANDARD,
+      type: #LINEITEM_REFERENCE,
+      label: 'Booking Details',
+      position: 20,
+      targetElement: '_booking'
+    }
+  ]
+  @UI: { lineItem: [{position: 10, label: 'Room ID'}],
+         identification: [{position: 10, label: 'Room ID'}],
+         selectionField: [{position: 10}] }
+  RoomId;
+  @UI: { lineItem: [{position: 20, label: 'Guest Name'}],
+      identification: [{position: 20, label: 'Guest Name'}],
+               selectionField: [{position: 20}] }
+  GuestName;
+  @UI: { lineItem: [{position: 30, label: 'Room Type'}],
+         identification: [{position: 30, label: 'Room Type'}],
+         selectionField: [{position: 30}] }
+  RoomType;
+  @UI: { lineItem: [{position: 40, label: 'Floor No'}],
+         identification: [{position: 40, label: 'Floor No'}] }
+  FloorNo;
+  @UI: { lineItem: [{position: 50, label: 'Capacity'}],
+         identification: [{position: 50, label: 'Capacity'}] }
+  Capacity;
+  @UI: { lineItem: [{position: 60, label: 'Price/Night'}],
+         identification: [{position: 60, label: 'Price/Night'}] }
+  PricePerNight;
+
+  @UI.hidden: true
+  Currency;
+  //  @UI: { identification: [{position: 80, label: 'Created By'}] }
+  //  LocalCreatedBy;
+
+  //  @UI: { lineItem: [{position: 70, label: 'Currency'}],
+  //         identification: [{position: 70, label: 'Currency'}] }
+  //  Currency;
+  //  @UI: { lineItem: [{position: 70, label: 'Status'}],
+  //         identification: [{position: 70, label: 'Status'}],
+  //         selectionField: [{position: 70}] }
+  //  Status;
+  @UI: { identification: [{position: 80, label: 'Created By'}] }
+  LocalCreatedBy;
+  @UI: { identification: [{position: 90, label: 'Created At'}] }
+  LocalCreatedAt;
+}

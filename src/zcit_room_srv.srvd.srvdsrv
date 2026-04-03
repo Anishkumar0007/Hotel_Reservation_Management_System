@@ -1,0 +1,5 @@
+@EndUserText.label: 'Hotel Room Booking Service'
+define service ZCIT_ROOM_SRV {
+  expose ZCIT_ROOM_020;
+  expose ZCIT_BOOK_020;
+}

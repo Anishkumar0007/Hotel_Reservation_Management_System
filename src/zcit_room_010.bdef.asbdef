@@ -1,0 +1,158 @@
+//unmanaged implementation in class zbp_room_010_save unique;
+//strict ( 2 );
+//with draft;
+//
+//define behavior for ZCIT_ROOM_010 alias Room
+//  implementation in class zbp_room_010 unique
+//  draft table zcit_room_d
+//  lock master total etag LocalLastChangedAt
+//  authorization master ( instance )
+//  etag master LocalLastChangedAt
+//{
+//  create ( authorization : global );
+//  update;
+//  delete;
+//
+//  draft action Edit;
+//  draft action Resume;
+//  draft determine action Prepare;
+//  draft action Activate optimized;
+//  draft action Discard;
+//
+//  field ( mandatory : create ) RoomId;
+//  field ( readonly : update )  RoomId;
+//  field ( readonly )           LocalLastChangedAt;
+//
+//  association _booking { create; with draft; }
+//
+//  mapping for zcit_room_t
+//  {
+//    RoomId            = roomid;
+//        GuestName      = guestname;
+//    RoomType          = roomtype;
+//    FloorNo           = floorno;
+//    Capacity          = capacity;
+//    PricePerNight     = pricepernight;
+//    Currency          = currency;
+//
+//    LocalCreatedBy    = local_created_by;
+//    LocalCreatedAt    = local_created_at;
+//    LocalLastChangedBy  = local_last_changed_by;
+//    LocalLastChangedAt  = local_last_changed_at;
+//  }
+//}
+//
+//define behavior for ZCIT_BOOK_010 alias Booking
+//  implementation in class zbp_book_010 unique
+//  draft table zcit_book_d
+//  lock dependent by _room
+//  authorization dependent by _room
+//  etag master LocalLastChangedAt
+//{
+//  update;
+//  delete;
+//
+//  field ( readonly : update, mandatory : create ) BookingId;
+//  field ( readonly ) RoomId;
+//
+//  association _room { with draft; }
+//
+//  mapping for zcit_book_t
+//  {
+//    RoomId         = roomid;
+//    BookingId      = bookingid;
+//
+//    CheckInDate    = checkindate;
+//    CheckOutDate   = checkoutdate;
+//    TotalAmount    = totalamount;
+//    Currency       = currency;
+//    BookingStatus  = bookingstatus;
+//    LocalCreatedBy = local_created_by;
+//    LocalCreatedAt = local_created_at;
+//    LocalLastChangedBy = local_last_changed_by;
+//    LocalLastChangedAt = local_last_changed_at;
+//  }
+//}
+unmanaged implementation in class zbp_room_010_save unique;
+strict ( 2 );
+with draft;
+define behavior for ZCIT_ROOM_010 alias Room
+ implementation in class zbp_room_010 unique
+ draft table zcit_room_d
+ lock master total etag LocalLastChangedAt
+ authorization master ( instance )
+ etag master LocalLastChangedAt
+{
+ create ( authorization : global );
+ update;
+ delete;
+ draft action Edit;
+ draft action Resume;
+//  draft determine action Prepare;
+   draft determine action Prepare
+ {
+   validation Booking~validateDates;
+ }
+ draft action Activate optimized;
+ draft action Discard;
+ field ( mandatory : create ) RoomId;
+ field ( readonly : update )  RoomId;
+ field ( readonly )           LocalLastChangedAt;
+
+   // NEW: Make Price Read-Only so user doesn't manually type it (optional, but recommended)
+  field ( readonly ) PricePerNight;
+
+  // NEW: Determination to set the price when RoomType changes
+  determination setPrice on modify { field RoomType; }
+
+  // NEW: Side effect so the Fiori UI updates instantly when dropdown is changed
+  side effects { field RoomType affects field PricePerNight; }
+
+
+
+ association _booking { create; with draft; }
+ mapping for zcit_room_t
+ {
+   RoomId            = roomid;
+       GuestName      = guestname;
+   RoomType          = roomtype;
+   FloorNo           = floorno;
+   Capacity          = capacity;
+   PricePerNight     = pricepernight;
+   Currency          = currency;
+   LocalCreatedBy    = local_created_by;
+   LocalCreatedAt    = local_created_at;
+   LocalLastChangedBy  = local_last_changed_by;
+   LocalLastChangedAt  = local_last_changed_at;
+ }
+}
+define behavior for ZCIT_BOOK_010 alias Booking
+implementation in class zbp_book_010 unique
+draft table zcit_book_d
+lock dependent by _room
+authorization dependent by _room
+etag master LocalLastChangedAt
+{
+ update;
+ delete;
+ field ( readonly : update, mandatory : create ) BookingId;
+ field ( readonly ) RoomId;
+ field ( readonly ) TotalAmount;
+ determination calculateTotalAmount on modify { field CheckInDate, CheckOutDate; }
+ validation validateDates on save { field CheckInDate, CheckOutDate; create; update; }
+ association _room { with draft; }
+ mapping for zcit_book_t
+ {
+   RoomId = roomid;
+   BookingId = bookingid;
+   CheckInDate = checkindate;
+   CheckOutDate = checkoutdate;
+   TotalAmount = totalamount;
+   Currency = currency;
+   BookingStatus = bookingstatus;
+   LocalCreatedBy = local_created_by;
+   LocalCreatedAt = local_created_at;
+   LocalLastChangedBy = local_last_changed_by;
+   LocalLastChangedAt = local_last_changed_at;
+ }
+}
