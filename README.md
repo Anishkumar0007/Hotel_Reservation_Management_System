@@ -1,6 +1,6 @@
-🏨 Hotel Room Booking System (SAP ABAP Cloud – RAP)
+🏨 Hotel Reservation Management System (SAP ABAP Cloud – RAP)
 
-A Hotel Room Booking System developed using the RESTful ABAP Programming Model (RAP) on SAP BTP ABAP Environment, integrated with SAP Fiori Elements UI.
+A Hotel Reservation Management System developed using the RESTful ABAP Programming Model (RAP) on SAP BTP ABAP Environment, integrated with SAP Fiori Elements UI.
 This project showcases an end-to-end transactional system for managing hotel rooms and bookings with draft handling, unmanaged save logic, and dynamic UI behavior.
 
 🌟 KEY FEATURES
